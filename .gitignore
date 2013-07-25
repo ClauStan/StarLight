@@ -1,1 +1,11 @@
 Debug/
+*.rar
+*.obj
+*.tlog
+*.log
+*.idb
+*.lastbuildstate
+*.pdb
+*.idb
+*.exe
+*.ilk
