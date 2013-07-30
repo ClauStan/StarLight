@@ -50,6 +50,9 @@ public:
 	bool IsPgUpPressed();
 	bool IsPgDownPressed();
 
+	float getMouseDeltaX();
+	float getMouseDeltaY();
+
 private:
 	bool ReadKeyboard();
 	bool ReadMouse();
@@ -65,6 +68,7 @@ private:
 
 	int m_screenWidth, m_screenHeight;
 	int m_mouseX, m_mouseY;
+	float m_mouseDeltaX, m_mouseDeltaY;
 };
 
 #endif

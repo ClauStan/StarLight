@@ -211,6 +211,10 @@ void InputClass::ProcessInput()
 	m_mouseX += m_mouseState.lX;
 	m_mouseY += m_mouseState.lY;
 
+	// Save the differences between current mouse location and previous mouse location
+	m_mouseDeltaX = m_mouseState.lX;
+	m_mouseDeltaY = m_mouseState.lY;
+
 	// Ensure the mouse location doesn't exceed the screen width or height.
 	if(m_mouseX < 0)  { m_mouseX = 0; }
 	if(m_mouseY < 0)  { m_mouseY = 0; }
@@ -335,4 +339,14 @@ bool InputClass::IsPgDownPressed()
 	}
 
 	return false;
+}
+
+float InputClass::getMouseDeltaX()
+{
+	return m_mouseDeltaX;
+}
+
+float InputClass::getMouseDeltaY()
+{
+	return m_mouseDeltaY;
 }

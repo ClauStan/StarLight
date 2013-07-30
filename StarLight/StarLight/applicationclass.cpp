@@ -356,7 +356,7 @@ bool ApplicationClass::Frame()
 bool ApplicationClass::HandleInput(float frameTime)
 {
 	bool keyDown, result;
-	float posX, posY, posZ, rotX, rotY, rotZ;
+	float posX, posY, posZ, rotX, rotY, rotZ, deltaX, deltaY;
 
 
 	// Set the frame time for calculating the updated position.
@@ -364,10 +364,10 @@ bool ApplicationClass::HandleInput(float frameTime)
 
 	// Handle the input.
 	keyDown = m_Input->IsLeftPressed();
-	m_Position->TurnLeft(keyDown);
+	m_Position->StrafeLeft(keyDown);
 
 	keyDown = m_Input->IsRightPressed();
-	m_Position->TurnRight(keyDown);
+	m_Position->StrafeRigth(keyDown);
 
 	keyDown = m_Input->IsUpPressed();
 	m_Position->MoveForward(keyDown);
@@ -386,7 +386,19 @@ bool ApplicationClass::HandleInput(float frameTime)
 
 	keyDown = m_Input->IsPgDownPressed();
 	m_Position->LookDownward(keyDown);
-	
+
+	deltaX = m_Input->getMouseDeltaX();
+	deltaY = m_Input->getMouseDeltaY();
+
+	// rotation on X in the 3D space is dependent on delta Y from 2D screen.
+	// same goes with Y(3D) and delta X(2D).
+	// also the deltas values are a bit high so we make them 1/10th of their initial value.
+	rotX = deltaY * 0.1f;
+	rotY = deltaX * 0.1f;
+
+	m_Position->RotateOnX(rotX);
+	m_Position->RotateOnY(rotY);
+
 	// Get the view point position/rotation.
 	m_Position->GetPosition(posX, posY, posZ);
 	m_Position->GetRotation(rotX, rotY, rotZ);

@@ -16,14 +16,16 @@ PositionClass::PositionClass()
 
 	m_frameTime = 0.0f;
 
-	m_forwardSpeed   = 0.0f;
-	m_backwardSpeed  = 0.0f;
-	m_upwardSpeed    = 0.0f;
-	m_downwardSpeed  = 0.0f;
-	m_leftTurnSpeed  = 0.0f;
-	m_rightTurnSpeed = 0.0f;
-	m_lookUpSpeed    = 0.0f;
-	m_lookDownSpeed  = 0.0f;
+	m_forwardSpeed     = 0.0f;
+	m_backwardSpeed    = 0.0f;
+	m_upwardSpeed      = 0.0f;
+	m_downwardSpeed    = 0.0f;
+	m_leftTurnSpeed    = 0.0f;
+	m_rightTurnSpeed   = 0.0f;
+	m_lookUpSpeed      = 0.0f;
+	m_lookDownSpeed    = 0.0f;
+	m_leftStrafeSpeed  = 0.0f;
+	m_rightStrafeSpeed = 0.0f;
 }
 
 
@@ -345,6 +347,106 @@ void PositionClass::LookDownward(bool keydown)
 	{
 		m_rotationX = -90.0f;
 	}
+
+	return;
+}
+
+void PositionClass::RotateOnX(float degrees)
+{
+	m_rotationX += degrees;
+
+	if(m_rotationX > 90.0f)
+	{
+		m_rotationX = 90.0f;
+	}
+
+	if(m_rotationX < -90.0f)
+	{
+		m_rotationX = -90.0f;
+	}
+}
+
+void PositionClass::RotateOnY(float degrees)
+{
+	m_rotationY += degrees;
+
+	if(m_rotationY > 360.0f)
+	{
+		m_rotationY -= 360.0f;
+	}
+
+	if(m_rotationY < 0.0f)
+	{
+		m_rotationY += 360.0f;
+	}
+}
+
+void PositionClass::StrafeLeft(bool keydown)
+{
+	float radians;
+
+	// Update the forward speed movement based on the frame time and whether the user is holding the key down or not.
+	if(keydown)
+	{
+		m_leftStrafeSpeed += m_frameTime * 0.001f;
+
+		if(m_leftStrafeSpeed > (m_frameTime * 0.03f))
+		{
+			m_leftStrafeSpeed = m_frameTime * 0.03f;
+		}
+	}
+	else
+	{
+		m_leftStrafeSpeed -= m_frameTime * 0.0007f;
+
+		if(m_leftStrafeSpeed < 0.0f)
+		{
+			m_leftStrafeSpeed = 0.0f;
+		}
+	}
+
+	// Convert degrees to radians.
+	// Same as moving forward but subtract 90 degrees.
+	radians = (m_rotationY - 90) * 0.0174532925f;
+
+	// Update the position.
+	m_positionX += sinf(radians) * m_leftStrafeSpeed;
+	m_positionZ += cosf(radians) * m_leftStrafeSpeed;
+
+	return;
+}
+
+void PositionClass::StrafeRigth(bool keydown)
+{
+	float radians;
+
+	// Update the forward speed movement based on the frame time and whether the user is holding the key down or not.
+	if(keydown)
+	{
+		m_rightStrafeSpeed += m_frameTime * 0.001f;
+
+		if(m_rightStrafeSpeed > (m_frameTime * 0.03f))
+		{
+			m_rightStrafeSpeed = m_frameTime * 0.03f;
+		}
+	}
+	else
+	{
+		m_rightStrafeSpeed -= m_frameTime * 0.0007f;
+
+		if(m_rightStrafeSpeed < 0.0f)
+		{
+			m_rightStrafeSpeed = 0.0f;
+		}
+	}
+
+	// Convert degrees to radians.
+	// Same as moving forward but add 90 degrees.
+	radians = (m_rotationY + 90) * 0.0174532925f;
+
+	// Update the position.
+	m_positionX += sinf(radians) * m_rightStrafeSpeed;
+	m_positionZ += cosf(radians) * m_rightStrafeSpeed;
 
 	return;
 }

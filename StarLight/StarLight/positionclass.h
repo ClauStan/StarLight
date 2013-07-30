@@ -37,6 +37,11 @@ public:
 	void TurnRight(bool);
 	void LookUpward(bool);
 	void LookDownward(bool);
+	void StrafeLeft(bool);
+	void StrafeRigth(bool);
+
+	void RotateOnX(float degrees);
+	void RotateOnY(float degrees);
 
 private:
 	float m_positionX, m_positionY, m_positionZ;
@@ -48,6 +53,7 @@ private:
 	float m_upwardSpeed, m_downwardSpeed;
 	float m_leftTurnSpeed, m_rightTurnSpeed;
 	float m_lookUpSpeed, m_lookDownSpeed;
+	float m_leftStrafeSpeed, m_rightStrafeSpeed;
 };
 
 #endif
